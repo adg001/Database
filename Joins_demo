@@ -1,0 +1,47 @@
+create table toys (
+  toy_id     integer,
+  toy_name   varchar2(20),
+  toy_colour varchar2(10)
+);
+
+create table bricks (
+  brick_id     integer,
+  brick_colour varchar2(10),
+  brick_shape  varchar2(10)
+);
+
+insert into toys values ( 1, 'Miss Snuggles', 'pink' ) ;
+insert into toys values ( 2, 'Cuteasaurus', 'blue' ) ;
+insert into toys values ( 3, 'Baby Turtle', 'green' ) ;
+
+insert into bricks values ( 2, 'blue', 'cube' );
+insert into bricks values ( 3, 'green', 'cube' );
+insert into bricks values ( 4, 'blue', 'pyramid' );
+
+commit;
+
+
+
+Inner Join
+
+(oracle)
+select * from toys,bricks where toys.toy_id=bricks.brick_id;
+
+(ANSI)
+select * from toys inner join bricks on toys.toy_id=bricks.brick_id;
+
+(Left Outer Join)
+select * from toys left join bricks on toys.toy_id=bricks.brick_id;
+
+(Right Outer Join)
+select * from toys left join bricks on toys.toy_id=bricks.brick_id;
+
+
+(Filtering on Join)
+
+select * from toys left join bricks on toys.toy_id=bricks.brick_id where brick_colour='green';
+
+
+ANY,ALL
+
+https://oracle-base.com/articles/misc/all-any-some-comparison-conditions-in-sql
