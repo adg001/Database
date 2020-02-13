@@ -1,0 +1,100 @@
+--1---
+select employee_id, first_name,last_name,manager_id
+from employees;
+
+--2---
+select employee_id, first_name,last_name,manager_id
+from employees
+where manager_id=100;
+
+--3---
+select employee_id, first_name,last_name,manager_id
+from employees
+where manager_id=101;
+
+--4---
+select employee_id, first_name,last_name,manager_id
+from employees
+where manager_id=108;
+
+--5---
+select employee_id, first_name,last_name,manager_id
+from employees
+where manager_id in (109,110,111,112,113)
+
+--6---
+select employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+--7---
+select employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=113
+connect by prior manager_id =employee_id --buttom up 
+
+--8---
+--let us take this and try to do nice thing
+--Neena Kochhar work for Steven King
+select employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+--9---
+select  first_name||' '||last_name ||' work for '|| (select  first_name||' '||last_name 
+                                                      from employees e where e.employee_id=a.manager_id )
+from employees a  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+--10---
+select  first_name||' '||last_name ||' work for '|| prior first_name||' '||prior last_name 
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+
+--11---
+select level,employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+--1 mean root
+--2 mean child of root
+--3 mean child of child , and so on
+
+--12---
+select level,employee_id, first_name,last_name,manager_id
+from employees 
+where level=2
+start with employee_id=100
+connect by prior employee_id=manager_id 
+
+--13---
+select lpad ('khaled',10, 0) from dual
+
+--14---
+select  level,
+        case 
+        when level=1 then first_name||' '||last_name 
+        when level Greater sign  1 then lpad (first_name||' '||last_name,length(first_name||' '||last_name)+level-1, '-')
+        end tree
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+----------------------
+
+--15---
+select employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=100
+connect by prior employee_id=manager_id --top down 
+
+--16---
+select employee_id, first_name,last_name,manager_id
+from employees  
+start with employee_id=100
+connect by  manager_id= prior employee_id --top down
