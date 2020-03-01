@@ -1,0 +1,60 @@
+1: Group by
+select deptno,count(*),sum(sal) from emp group by deptno;
+
+2:
+select department_id,count(*),job_id,sum(salary) from employees group by department_id,job_id order by department_id;
+
+3:
+select department_id,count(*),job_id,sum(salary) from employees group by rollup(department_id,job_id) order by department_id;
+
+Views
+Transaction(Transaction_id,Policy_id,Payee_name,Payment_mode,Credit_Debit_Card_Number,Date_of_Payment,Month,Amount,Vendor_Name,empid,product_id)
+
+Materialised Views
+Materialised Views are DB objects that store the o/p of the query in the stable storage.
+
+create materialized view mv_demo as e.employee_id,p.product_code,sum(amount) from employees e inner join transaction t on e.employee_id=t.employee_id
+ inner join products p on p.product_id=t.product_id group by e.employee_id=p.product_id;
+
+
+create materialized view mv_view refresh complete on demand as
+select employee_id,sum(amount) from transaction t, employee_new e where e.employee_id=t.employee_id group by e.employee_id;
+
+
+exec dbms_mview.refresh('mv_emp_revenue',atomic_refresh=>True);
+
+
+Oracle session 9 Data
+
+select * from employee;
+
+create materialized view my_emp as select * from employee where salary<50000;
+
+select * from my_emp;
+----------------------------------------
+Refresh Complete on Demand
+---------------------------------------
+
+create materialized view my_emp1 refresh complete on demand as select * from employee where salary<50000;
+
+update employee set salary=salary-1000 where empid='P0001';
+
+select * from my_emp1;
+
+update employee set salary=salary+2000 where empid='P0001';
+
+exec dbms_mview.refresh('my_emp1',atomic_refresh=>True);
+
+select * from my_emp1;
+-------------------------------------------
+Refresh complete on commit
+-------------------------------------------
+
+create materialized view my_emp2 refresh complete on commit as select * from employee where salary<50000;
+
+select * from my_emp2;
+
+update employee set salary=salary+5000 where empid='P0001';
+
+
+
