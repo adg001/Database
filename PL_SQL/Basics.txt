@@ -1,0 +1,35 @@
+select * from employee;
+describe employee;
+
+--Variables and PL/SQL Block
+declare
+    eid varchar(10);
+    ename varchar(30);
+begin
+    select empid,empname into eid,ename from employee where empid='A0021';
+    dbms_output.put_line('Employee Id:'||eid||' '||'Employee Name:'||ename);
+end;
+
+--Assigning a variable
+declare 
+     com number(5):=100;
+begin
+    update employee set salary=salary+com where empid='A0021';
+end;
+
+
+--Anchored Datatype
+declare 
+     ename employee.empname%type;
+begin
+    select empname into  ename from employee where empid='A0021';
+    dbms_output.put_line('Employee Name is='||ename);
+end;
+
+--Constants in PL/SQL
+declare
+      pi constant number(8,4):=3.1467;
+begin
+    dbms_output.put_line(pi);
+end;
+
