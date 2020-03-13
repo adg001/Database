@@ -22,4 +22,4 @@ Example of regexp_like
 
 Example of regexo_substr
 
-1: select PHONE_NUMBER,regexp_SUBSTR(phone_number,'^[0-9]{3}') as p from employees ;
+1: select PHONE_NUMBER,regexp_SUBSTR(phone_number,'^[0-9]{3}') as p from employees;
